@@ -1,0 +1,46 @@
+{
+  "nome": "Marinelli",
+  "versione": "3.0",
+  "sottotitolo": "Paninoteca · Sapori di Napoli",
+  "notaPiePagina": "Chiedi al personale per informazioni su allergeni e intolleranze.",
+  "sezioni": [
+    {
+      "titolo": "Antipasti",
+      "sopratitolo": "Per iniziare",
+      "piatti": [
+        { "nome": "Tagliere Misto Marinelli", "prezzo": 20, "disponibile": true, "ingredienti": ["Prosciutto crudo", "Prosciutto cotto", "Pancetta", "Salame napoletano", "Brie con miele", "Provola affumicata", "Parmigiano"] },
+        { "nome": "Box Marchi", "prezzo": 10, "disponibile": true, "ingredienti": ["Patate fritte", "Bacon", "Cheddar"] },
+        { "nome": "O' Sfizio", "prezzo": 12, "disponibile": true, "ingredienti": ["Anelli di cipolla", "Coscette di pollo piccanti", "Jalapeño"] },
+        { "nome": "O' Peccato", "prezzo": 10, "disponibile": true, "ingredienti": ["Verdure pastellate", "Speedy pollo", "Mozzarelline", "Olive ascolane"] },
+        { "nome": "Box Marty", "prezzo": 10, "disponibile": true, "ingredienti": ["Würstel", "Provola", "Patatine fritte"] },
+        { "nome": "Donna Patrizia", "prezzo": 12, "disponibile": true, "ingredienti": ["Bruschettone con seppioline in cassuola piccanti"] },
+        { "nome": "Box Mary", "prezzo": 10, "disponibile": true, "ingredienti": ["Polpette fritte", "Patatine fritte", "Cheddar"] },
+        { "nome": "Don Rafè", "prezzo": 18, "disponibile": true, "ingredienti": ["Bufala 250 g", "6 fettine di prosciutto crudo", "Scaglie di grana"] }
+      ],
+      "extra": []
+    },
+    {
+      "titolo": "Panini",
+      "sopratitolo": "I nostri",
+      "piatti": [
+        { "nome": "O' Maradona", "prezzo": 15, "disponibile": true, "ingredienti": ["Hamburger di scottona 125 g", "Prosciutto cotto", "Peperoni", "Provola affumicata", "Patate al forno"] },
+        { "nome": "O' Guaglione", "prezzo": 15, "disponibile": true, "ingredienti": ["Porchetta", "Patate al forno", "Fior di latte", "Peperoni"] },
+        { "nome": "A' Partenopea", "prezzo": 18, "disponibile": true, "ingredienti": ["Parmigiana di melanzane", "Salsiccia", "Fior di latte", "Parmigiano", "Basilico"] },
+        { "nome": "O' Pistacchio", "prezzo": 14, "disponibile": true, "ingredienti": ["Mortadella", "Stracciatella", "Pesto di pistacchio", "Granella"] },
+        { "nome": "O' Mascalzone", "prezzo": 15, "disponibile": true, "ingredienti": ["Salsiccia", "Peperoni arrostiti", "Scamorza", "Cipolla caramellata"] },
+        { "nome": "O' Vesuvio", "prezzo": 14, "disponibile": true, "ingredienti": ["Salsiccia", "Friarielli", "Provola affumicata"] },
+        { "nome": "O' Saporito", "prezzo": 13, "disponibile": true, "ingredienti": ["Cotoletta", "Provola affumicata", "Maionese", "Insalata"] },
+        { "nome": "O' Scugnizzo", "prezzo": 15, "disponibile": true, "ingredienti": ["Cotoletta", "Friarielli", "Provola", "Maionese"] },
+        { "nome": "Azz!", "prezzo": 15, "disponibile": true, "ingredienti": ["Pollo grigliato", "Bacon croccante", "Cheddar", "Cipolla caramellata", "Salsa BBQ"] },
+        { "nome": "Bella Napoli", "prezzo": 18, "disponibile": true, "ingredienti": ["Doppio hamburger", "Doppia provola", "Porchetta croccante", "Bacon", "Salsa segreta della casa"] },
+        { "nome": "O' Pulcinella", "prezzo": 14, "disponibile": true, "ingredienti": ["Polpette al ragù", "Provola affumicata", "Friarielli"] },
+        { "nome": "Napoli Street", "prezzo": 11, "disponibile": true, "ingredienti": ["Würstel", "Cheddar", "Bacon", "Salsa BBQ"] },
+        { "nome": "O' Best", "prezzo": 14, "disponibile": true, "ingredienti": ["Salsiccia sbriciolata", "Provola affumicata", "Melanzane a funghetto", "Maionese"] }
+      ],
+      "extra": [
+        { "testo": "Aggiunte", "prezzo": "a partire da 2 €" },
+        { "testo": "Provola di bufala / Bufala", "prezzo": "5 €" }
+      ]
+    }
+  ]
+}

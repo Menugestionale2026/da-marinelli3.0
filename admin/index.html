@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestione Menù · Marinelli 3.0</title>
+<meta name="theme-color" content="#0b0710">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="core.js"></script>
+</head>
+<body>
+
+<!-- ================= ACCESSO ================= -->
+<div id="loginView" class="login hidden">
+  <svg class="crown" viewBox="0 0 64 64" aria-hidden="true">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d98b"/><stop offset="1" stop-color="#b8901f"/></linearGradient></defs>
+    <path d="M8 46 L12 18 L24 32 L32 12 L40 32 L52 18 L56 46 Z" fill="url(#g)"/>
+    <rect x="8" y="48" width="48" height="6" rx="2" fill="url(#g)"/>
+    <circle cx="32" cy="36" r="4" fill="#6b2fa3"/>
+  </svg>
+  <h1>Marinelli 3.0</h1>
+  <p class="sub">Gestione menù</p>
+  <form class="box" id="loginForm" autocomplete="on">
+    <input type="text" name="username" value="marinelli" autocomplete="username" hidden>
+    <div class="row"><label for="pwd">Password</label><input id="pwd" class="pwd-big" type="password" autocomplete="current-password" autofocus></div>
+    <label class="check"><input id="remember" type="checkbox" checked> Resta collegato su questo dispositivo</label>
+    <button id="loginBtn" class="btn gold" type="submit" style="width:100%;margin-top:16px;padding:13px">Entra</button>
+    <div id="loginMsg" class="msg"></div>
+  </form>
+</div>
+
+<!-- ================= EDITOR ================= -->
+<div id="editorView" class="hidden">
+  <div class="top">
+    <h1>Gestione Menù</h1>
+    <span id="status" class="status">Tutto salvato</span>
+    <a class="btn ghost small" href="../" target="_blank" rel="noopener">Vedi menù ↗</a>
+    <button id="undoBtn" class="btn ghost small" disabled>Annulla modifiche</button>
+    <button id="pwdBtn" class="btn ghost small">Password</button>
+    <button id="logoutBtn" class="btn ghost small">Esci</button>
+    <button id="saveBtn" class="btn gold" disabled>Salva e pubblica</button>
+  </div>
+
+  <div class="wrap">
+    <div id="offlineBanner" class="banner hidden">Modalità di prova: le modifiche non vengono pubblicate. "Salva" scarica il file <b>menu.json</b>.</div>
+
+    <div class="search"><input id="search" type="text" placeholder="Cerca un piatto o un ingrediente…" autocomplete="off"></div>
+
+    <div id="sections"></div>
+    <button class="btn add" data-act="addSection">+ Aggiungi una nuova sezione (es. Bevande, Dolci)</button>
+
+    <div class="card" style="margin-top:22px">
+      <h2>Informazioni generali</h2>
+      <div class="grid3">
+        <div><label>Nome locale</label><input type="text" data-g="nome"></div>
+        <div><label>Versione / sigla</label><input type="text" data-g="versione"></div>
+        <div class="full"><label>Sottotitolo</label><input type="text" data-g="sottotitolo"></div>
+        <div class="full"><label>Nota a fondo pagina</label><input type="text" data-g="notaPiePagina"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CAMBIO PASSWORD ================= -->
+<div id="pwdModal" class="modal-bg hidden">
+  <form class="modal" id="pwdForm">
+    <h2>Cambia password</h2>
+    <input type="text" name="username" value="marinelli" autocomplete="username" hidden>
+    <div class="row"><label>Nuova password (almeno 8 caratteri)</label><input id="newPwd1" type="password" autocomplete="new-password"></div>
+    <div class="row"><label>Ripeti la nuova password</label><input id="newPwd2" type="password" autocomplete="new-password"></div>
+    <p class="hint">La nuova password vale su tutti i dispositivi entro 1–2 minuti.</p>
+    <div id="pwdMsg" class="msg"></div>
+    <div class="actions">
+      <button type="button" class="btn ghost" id="pwdCancel">Annulla</button>
+      <button type="submit" class="btn gold" id="pwdSave">Salva password</button>
+    </div>
+  </form>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* =========================================================
+   Pannello di gestione del menù – Marinelli 3.0
+   I proprietari accedono solo con la password.
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STORE = "marinelli-admin-session";
+const MENU_PATH = "menu.json";
+const CONFIG_PATH = "admin/config.js";
+
+let CONF = null;    // contenuto di config.js (repository + chiave cifrata)
+let repo = null;    // {owner, repo, branch, token}
+let offline = false;
+let data = null, original = "", sha = null;
+
+/* ---------- utilità ---------- */
+function toast(t, ms = 2800) {
+  const el = $("#toast"); el.textContent = t; el.classList.add("show");
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), ms);
+}
+const fmtPrice = p => (p === "" || p == null) ? "" : String(p).replace(".", ",");
+function parsePrice(v) {
+  const t = String(v).trim().replace(/\s*€$/, "").replace(",", ".");
+  if (t === "" || !/^\d+(\.\d{1,2})?$/.test(t)) return NaN;
+  return Number(t);
+}
+function loadConfig() {
+  // carica config.js evitando la cache, così un cambio password vale subito
+  return new Promise(res => {
+    const s = document.createElement("script");
+    s.src = "config.js?v=" + Date.now();
+    s.onload = () => res(window.MENU_ADMIN_CONFIG || null);
+    s.onerror = () => res(null);
+    document.head.appendChild(s);
+  });
+}
+
+/* ---------- accesso ---------- */
+function showLogin(msg) {
+  $("#editorView").classList.add("hidden"); $("#loginView").classList.remove("hidden");
+  const m = $("#loginMsg"); m.textContent = msg || ""; m.className = "msg" + (msg ? " err" : "");
+  $("#pwd").value = ""; $("#pwd").focus();
+}
+async function doLogin(ev) {
+  ev.preventDefault();
+  const pwd = $("#pwd").value, m = $("#loginMsg");
+  if (!pwd) return;
+  m.textContent = "Accesso in corso…"; m.className = "msg"; $("#loginBtn").disabled = true;
+  try {
+    let token;
+    try { token = await Core.decrypt(CONF.enc, pwd); }
+    catch { throw new Error("Password errata."); }
+    repo = { owner: CONF.owner, repo: CONF.repo, branch: CONF.branch, token };
+    const f = await Core.readFile(repo, MENU_PATH);
+    sha = f.sha;
+    const store = $("#remember").checked ? localStorage : sessionStorage;
+    store.setItem(STORE, JSON.stringify({ token }));
+    startEditor(JSON.parse(f.text));
+  } catch (e) {
+    m.textContent = e.message; m.className = "msg err"; $("#pwd").select();
+  } finally { $("#loginBtn").disabled = false; }
+}
+function logout() {
+  if (isDirty() && !confirm("Ci sono modifiche non salvate. Uscire comunque?")) return;
+  try { localStorage.removeItem(STORE); sessionStorage.removeItem(STORE); } catch {}
+  repo = null; data = null; original = ""; sha = null;
+  showLogin();
+}
+
+/* ---------- cambio password ---------- */
+function openPwd() {
+  if (offline) return alert("Non disponibile in modalità di prova.");
+  $("#newPwd1").value = $("#newPwd2").value = ""; $("#pwdMsg").textContent = "";
+  $("#pwdModal").classList.remove("hidden"); $("#newPwd1").focus();
+}
+async function savePwd(ev) {
+  ev.preventDefault();
+  const a = $("#newPwd1").value, b = $("#newPwd2").value, m = $("#pwdMsg");
+  if (a.length < 8) { m.textContent = "La password deve avere almeno 8 caratteri."; m.className = "msg err"; return; }
+  if (a !== b) { m.textContent = "Le due password non coincidono."; m.className = "msg err"; return; }
+  m.textContent = "Salvataggio…"; m.className = "msg"; $("#pwdSave").disabled = true;
+  try {
+    const conf = { ...CONF, enc: await Core.encrypt(repo.token, a), aggiornato: new Date().toISOString() };
+    const curSha = await Core.shaOf(repo, CONFIG_PATH);
+    await Core.writeFile(repo, CONFIG_PATH, Core.configJs(conf), curSha, "Cambio password pannello menù");
+    CONF = conf;
+    $("#pwdModal").classList.add("hidden");
+    toast("Password cambiata.", 3500);
+  } catch (e) { m.textContent = e.message; m.className = "msg err"; }
+  finally { $("#pwdSave").disabled = false; }
+}
+
+/* ---------- editor ---------- */
+function normalize(d) {
+  d.sezioni ||= [];
+  d.sezioni.forEach(s => {
+    s.piatti ||= []; s.extra ||= [];
+    s.piatti.forEach(p => { p.ingredienti ||= []; if (p.disponibile === undefined) p.disponibile = true; });
+  });
+  return d;
+}
+function startEditor(d) {
+  data = normalize(d);
+  original = JSON.stringify(data);
+  $("#loginView").classList.add("hidden"); $("#editorView").classList.remove("hidden");
+  $("#offlineBanner").classList.toggle("hidden", !offline);
+  $("#saveBtn").textContent = offline ? "Scarica menu.json" : "Salva e pubblica";
+  document.querySelectorAll("[data-g]").forEach(i => i.value = data[i.dataset.g] ?? "");
+  renderSections(); updateStatus();
+}
+const isDirty = () => !!data && JSON.stringify(data) !== original;
+function updateStatus(text, cls) {
+  const st = $("#status"), dirty = isDirty();
+  st.textContent = text || (dirty ? "● Modifiche non salvate" : "Tutto salvato");
+  st.className = "status " + (cls || (dirty ? "dirty" : ""));
+  $("#saveBtn").disabled = !dirty;
+  $("#undoBtn").disabled = !dirty;
+}
+
+function renderSections() {
+  $("#sections").innerHTML = data.sezioni.map((s, si) => `
+    <div class="section">
+      <div class="section-head">
+        <div class="f"><label>Nome sezione</label><input type="text" value="${esc(s.titolo)}" data-s="${si}" data-f="titolo"></div>
+        <div class="f"><label>Scritta sopra (facoltativa)</label><input type="text" value="${esc(s.sopratitolo)}" data-s="${si}" data-f="sopratitolo"></div>
+        <div class="tools">
+          <button class="btn icon" title="Sposta su" data-act="secUp" data-s="${si}" ${si === 0 ? "disabled" : ""}>↑</button>
+          <button class="btn icon" title="Sposta giù" data-act="secDown" data-s="${si}" ${si === data.sezioni.length - 1 ? "disabled" : ""}>↓</button>
+          <button class="btn icon danger" title="Elimina sezione" data-act="secDel" data-s="${si}">✕</button>
+        </div>
+      </div>
+      <div class="section-body">
+        ${s.piatti.map((p, pi) => `
+          <div class="item${p.disponibile === false ? " off" : ""}">
+            <div><label>Nome</label><input type="text" value="${esc(p.nome)}" data-s="${si}" data-p="${pi}" data-f="nome"></div>
+            <div><label>Prezzo</label><div class="price-wrap"><input type="text" inputmode="decimal" value="${esc(fmtPrice(p.prezzo))}" data-s="${si}" data-p="${pi}" data-f="prezzo"></div></div>
+            <div class="ing"><label>Ingredienti (separati da virgola)</label><textarea rows="2" data-s="${si}" data-p="${pi}" data-f="ingredienti">${esc(p.ingredienti.join(", "))}</textarea></div>
+            <div class="foot">
+              <label class="check"><input type="checkbox" ${p.disponibile !== false ? "checked" : ""} data-s="${si}" data-p="${pi}" data-f="disponibile"> Disponibile</label>
+              <button class="btn icon" title="Sposta su" data-act="itUp" data-s="${si}" data-p="${pi}" ${pi === 0 ? "disabled" : ""}>↑</button>
+              <button class="btn icon" title="Sposta giù" data-act="itDown" data-s="${si}" data-p="${pi}" ${pi === s.piatti.length - 1 ? "disabled" : ""}>↓</button>
+              <button class="btn small danger" data-act="itDel" data-s="${si}" data-p="${pi}">Elimina</button>
+            </div>
+          </div>`).join("")}
+        <button class="btn add" data-act="itAdd" data-s="${si}">+ Aggiungi piatto in "${esc(s.titolo || "sezione")}"</button>
+
+        <div class="sub-h">Extra e aggiunte</div>
+        <p class="hint">Righe mostrate in fondo alla sezione (es. "Aggiunte – a partire da 2 €").</p>
+        ${s.extra.map((e, ei) => `
+          <div class="extra">
+            <input type="text" placeholder="Descrizione" value="${esc(e.testo)}" data-s="${si}" data-e="${ei}" data-f="testo">
+            <input type="text" placeholder="Prezzo (es. 5 o 'da 2 €')" value="${esc(fmtPrice(e.prezzo))}" data-s="${si}" data-e="${ei}" data-f="prezzo">
+            <button class="btn icon danger" title="Elimina riga" data-act="exDel" data-s="${si}" data-e="${ei}">✕</button>
+          </div>`).join("")}
+        <button class="btn small ghost" style="margin-top:10px" data-act="exAdd" data-s="${si}">+ Aggiungi riga extra</button>
+      </div>
+    </div>`).join("");
+  applySearch();
+}
+
+/* ricerca */
+function applySearch() {
+  const q = $("#search").value.trim().toLowerCase();
+  document.querySelectorAll("#sections .section").forEach((sec, si) => {
+    let any = false;
+    sec.querySelectorAll(".item").forEach((it, pi) => {
+      const p = data.sezioni[si].piatti[pi];
+      const hit = !q || (p.nome + " " + p.ingredienti.join(" ")).toLowerCase().includes(q);
+      it.classList.toggle("nomatch", !hit); any ||= hit;
+    });
+    sec.classList.toggle("nomatch", !!q && !any);
+  });
+}
+$("#search").addEventListener("input", applySearch);
+
+/* modifica dei campi (senza ridisegnare, così non si perde il cursore) */
+document.addEventListener("input", ev => {
+  const t = ev.target; if (!data || t.id === "search") return;
+  if (t.dataset.g) { data[t.dataset.g] = t.value; return updateStatus(); }
+  if (t.dataset.s === undefined || !t.dataset.f) return;
+  const s = data.sezioni[+t.dataset.s], f = t.dataset.f;
+  if (t.dataset.p !== undefined) {
+    const p = s.piatti[+t.dataset.p];
+    if (f === "ingredienti") p.ingredienti = t.value.split(/[,\n]/).map(x => x.trim()).filter(Boolean);
+    else if (f === "disponibile") { p.disponibile = t.checked; t.closest(".item").classList.toggle("off", !t.checked); }
+    else if (f === "prezzo") { p.prezzo = t.value; t.classList.toggle("err", isNaN(parsePrice(t.value))); }
+    else p[f] = t.value;
+  } else if (t.dataset.e !== undefined) {
+    s.extra[+t.dataset.e][f] = t.value;
+  } else s[f] = t.value;
+  updateStatus();
+});
+document.addEventListener("change", ev => { if (ev.target.type === "checkbox" && ev.target.dataset.f) ev.target.dispatchEvent(new Event("input", { bubbles: true })); });
+
+/* pulsanti */
+const swap = (arr, a, b) => { [arr[a], arr[b]] = [arr[b], arr[a]]; };
+document.addEventListener("click", ev => {
+  const b = ev.target.closest("[data-act]"); if (!b || !data) return;
+  const si = +b.dataset.s, pi = +b.dataset.p, ei = +b.dataset.e, S = data.sezioni[si];
+  switch (b.dataset.act) {
+    case "addSection": data.sezioni.push({ titolo: "Nuova sezione", sopratitolo: "", piatti: [], extra: [] }); break;
+    case "secUp": swap(data.sezioni, si, si - 1); break;
+    case "secDown": swap(data.sezioni, si, si + 1); break;
+    case "secDel":
+      if (!confirm(`Eliminare la sezione "${S.titolo}" con tutti i suoi ${S.piatti.length} piatti?`)) return;
+      data.sezioni.splice(si, 1); break;
+    case "itAdd": $("#search").value = ""; S.piatti.push({ nome: "", prezzo: "", disponibile: true, ingredienti: [] }); break;
+    case "itUp": swap(S.piatti, pi, pi - 1); break;
+    case "itDown": swap(S.piatti, pi, pi + 1); break;
+    case "itDel":
+      if (!confirm(`Eliminare "${S.piatti[pi].nome || "questo piatto"}"?`)) return;
+      S.piatti.splice(pi, 1); break;
+    case "exAdd": S.extra.push({ testo: "", prezzo: "" }); break;
+    case "exDel": S.extra.splice(ei, 1); break;
+    default: return;
+  }
+  renderSections(); updateStatus();
+  if (b.dataset.act === "itAdd") {
+    const items = document.querySelectorAll(`#sections .section:nth-child(${si + 1}) .item`);
+    const last = items[items.length - 1];
+    last?.scrollIntoView({ block: "center" }); last?.querySelector("input")?.focus();
+  }
+});
+
+/* ---------- salvataggio ---------- */
+function validate() {
+  const errors = [];
+  const out = JSON.parse(JSON.stringify(data));
+  out.sezioni.forEach(s => {
+    if (!String(s.titolo).trim()) errors.push("C'è una sezione senza nome.");
+    s.piatti.forEach(p => {
+      p.nome = String(p.nome).trim();
+      if (!p.nome) errors.push(`In "${s.titolo}" c'è un piatto senza nome.`);
+      const n = parsePrice(p.prezzo);
+      if (isNaN(n)) errors.push(`Prezzo non valido per "${p.nome || "piatto senza nome"}" (scrivi solo il numero, es. 12 o 12,50).`);
+      else p.prezzo = n;
+    });
+    s.extra = s.extra.filter(e => String(e.testo).trim()).map(e => {
+      const n = parsePrice(e.prezzo);
+      return { testo: e.testo.trim(), prezzo: isNaN(n) ? String(e.prezzo).trim() : n };
+    });
+  });
+  return { errors, out };
+}
+async function save() {
+  const { errors, out } = validate();
+  if (errors.length) { alert("Correggi prima di salvare:\n\n• " + [...new Set(errors)].join("\n• ")); return; }
+  const json = JSON.stringify(out, null, 2) + "\n";
+
+  if (offline) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+    a.download = "menu.json"; a.click(); URL.revokeObjectURL(a.href);
+    data = normalize(out); original = JSON.stringify(data); renderSections(); updateStatus();
+    return toast("File menu.json scaricato.");
+  }
+
+  $("#saveBtn").disabled = true; updateStatus("Salvataggio…", "");
+  try {
+    sha = await Core.writeFile(repo, MENU_PATH, json, sha, `Aggiornamento menù (${new Date().toLocaleString("it-IT")})`);
+    data = normalize(out); original = JSON.stringify(data);
+    renderSections(); updateStatus("✓ Pubblicato", "ok");
+    toast("Menù salvato! Online entro 1–2 minuti.", 4500);
+  } catch (e) {
+    updateStatus("Errore nel salvataggio", "err");
+    alert(e.message);
+    $("#saveBtn").disabled = false;
+  }
+}
+function undo() {
+  if (!confirm("Annullare tutte le modifiche non salvate?")) return;
+  data = normalize(JSON.parse(original));
+  document.querySelectorAll("[data-g]").forEach(i => i.value = data[i.dataset.g] ?? "");
+  renderSections(); updateStatus();
+}
+
+/* ---------- avvio ---------- */
+$("#loginForm").onsubmit = doLogin;
+$("#saveBtn").onclick = save;
+$("#undoBtn").onclick = undo;
+$("#logoutBtn").onclick = logout;
+$("#pwdBtn").onclick = openPwd;
+$("#pwdForm").onsubmit = savePwd;
+$("#pwdCancel").onclick = () => $("#pwdModal").classList.add("hidden");
+window.addEventListener("beforeunload", e => { if (isDirty()) { e.preventDefault(); e.returnValue = ""; } });
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s" && data) { e.preventDefault(); if (isDirty()) save(); }
+});
+
+(async function init() {
+  // Modalità di prova: admin/?prova  -> si può provare senza password, nulla viene pubblicato
+  if (new URLSearchParams(location.search).has("prova")) {
+    offline = true;
+    try { const r = await fetch("../menu.json?v=" + Date.now(), { cache: "no-store" }); return startEditor(await r.json()); }
+    catch { offline = false; }
+  }
+  CONF = await loadConfig();
+  if (!CONF?.enc) {
+    $("#loginView").classList.remove("hidden");
+    $("#loginForm").innerHTML = '<p class="msg err" style="text-align:center">Il pannello non è ancora stato configurato.<br>Contatta chi ha realizzato il sito.</p>';
+    return;
+  }
+  // sessione salvata su questo dispositivo?
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || sessionStorage.getItem(STORE) || "null"); } catch {}
+  if (saved?.token) {
+    repo = { owner: CONF.owner, repo: CONF.repo, branch: CONF.branch, token: saved.token };
+    try { const f = await Core.readFile(repo, MENU_PATH); sha = f.sha; return startEditor(JSON.parse(f.text)); }
+    catch (e) {
+      try { localStorage.removeItem(STORE); sessionStorage.removeItem(STORE); } catch {}
+      return showLogin(e.status === 401 ? "" : e.message);
+    }
+  }
+  showLogin();
+})();
+</script>
+</body>
+</html>
