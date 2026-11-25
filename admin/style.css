@@ -144,3 +144,19 @@
     background:var(--gold);color:#1a1020;font-weight:600;display:grid;place-items:center;font-size:.8rem}
   .steps b{color:var(--text)}
   a{color:var(--gold-light)}
+
+  /* --- schede, allergeni, etichette --- */
+  .tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
+  .tab{font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;color:var(--muted);white-space:nowrap;
+    padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
+  .tab.on{color:#1a1020;background:linear-gradient(180deg,var(--gold-light),var(--gold));border-color:var(--gold)}
+  .item .more{grid-column:1/-1}
+  .algs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .ach{font:inherit;font-size:.8rem;cursor:pointer;color:var(--muted);padding:5px 9px;border-radius:999px;
+    background:#0f0916;border:1px solid rgba(167,123,214,.25);transition:.15s}
+  .ach.on{color:#1a1020;background:var(--gold);border-color:var(--gold);font-weight:600}
+  .ach.tg.on{background:var(--purple-soft);border-color:var(--purple-soft)}
+  details.adv{margin-top:2px;color:var(--text);font-size:.9rem}
+  details.adv summary{color:var(--gold-light);cursor:pointer;font-size:.85rem}
+  details.adv .inner{padding-top:10px;display:grid;gap:12px}
+  .alg-sum{font-size:.78rem;color:var(--muted);margin-left:6px}

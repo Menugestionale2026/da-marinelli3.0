@@ -4,214 +4,166 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Marinelli 3.0 · Menù</title>
-<meta name="description" content="Menù digitale di Marinelli 3.0 – Paninoteca: antipasti e panini dal sapore napoletano.">
+<meta name="description" content="Menù digitale di Marinelli 3.0 – Paninoteca: antipasti, panini e bevande dal sapore napoletano.">
 <meta name="theme-color" content="#0b0710">
+<meta property="og:title" content="Marinelli 3.0 · Menù">
+<meta property="og:description" content="Paninoteca · Sapori di Napoli">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0710'/%3E%3Cpath d='M10 44 L14 20 L25 32 L32 14 L39 32 L50 20 L54 44 Z' fill='%23d4af37'/%3E%3Ccircle cx='32' cy='36' r='4' fill='%236b2fa3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="allergeni.js"></script>
 <style>
   :root{
-    --black:#0b0710;
-    --black-2:#140c1c;
-    --purple:#6b2fa3;
-    --purple-deep:#3a1460;
-    --purple-soft:#a77bd6;
-    --gold:#d4af37;
-    --gold-light:#f3d98b;
-    --text:#ece6f3;
-    --muted:#b3a7c2;
-    --line:rgba(212,175,55,.22);
+    --black:#0b0710; --black-2:#140c1c;
+    --purple:#6b2fa3; --purple-deep:#3a1460; --purple-soft:#a77bd6;
+    --gold:#d4af37; --gold-light:#f3d98b;
+    --text:#ece6f3; --muted:#b3a7c2; --line:rgba(212,175,55,.22);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    font-family:"Outfit",system-ui,sans-serif;
-    color:var(--text);
+    font-family:"Outfit",system-ui,sans-serif;color:var(--text);
     background:
       radial-gradient(900px 500px at 85% -10%, rgba(107,47,163,.45), transparent 60%),
       radial-gradient(700px 500px at -10% 30%, rgba(58,20,96,.55), transparent 60%),
       var(--black);
-    background-attachment:fixed;
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
+    background-attachment:fixed;min-height:100vh;-webkit-font-smoothing:antialiased;
+    padding-bottom:env(safe-area-inset-bottom);
   }
+  a{color:inherit}
+  .hidden{display:none!important}
 
   /* ---------- HEADER ---------- */
-  header{
-    text-align:center;
-    padding:56px 20px 34px;
-    position:relative;
-  }
-  .crown{
-    width:46px;height:46px;margin:0 auto 14px;display:block;
-    filter:drop-shadow(0 0 12px rgba(212,175,55,.45));
-  }
+  header{text-align:center;padding:52px 20px 28px}
+  .crown{width:46px;height:46px;margin:0 auto 14px;display:block;filter:drop-shadow(0 0 12px rgba(212,175,55,.45))}
   h1{
-    font-family:"Cinzel",serif;
-    font-weight:800;
-    font-size:clamp(2.4rem,9vw,4.2rem);
-    letter-spacing:.04em;
-    line-height:1;
+    font-family:"Cinzel",serif;font-weight:800;font-size:clamp(2.4rem,9vw,4.2rem);letter-spacing:.04em;line-height:1;
     background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 55%,#9c7a1c 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
   h1 .ver{
-    display:inline-block;
-    font-size:.45em;
-    vertical-align:super;
-    margin-left:.15em;
-    padding:.15em .45em;
-    border:1.5px solid var(--gold);
-    border-radius:999px;
-    -webkit-text-fill-color:var(--gold-light);
-    background:rgba(107,47,163,.35);
+    display:inline-block;font-size:.45em;vertical-align:super;margin-left:.15em;padding:.15em .45em;
+    border:1.5px solid var(--gold);border-radius:999px;-webkit-text-fill-color:var(--gold-light);background:rgba(107,47,163,.35);
   }
-  .tagline{
-    margin-top:14px;
-    font-size:.8rem;
-    letter-spacing:.35em;
-    text-transform:uppercase;
-    color:var(--purple-soft);
+  .tagline{margin-top:14px;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;color:var(--purple-soft)}
+  .divider{display:flex;align-items:center;gap:12px;max-width:260px;margin:22px auto 0;color:var(--gold)}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .quick{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:.9rem;
+    padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(58,20,96,.5);color:var(--text);
+    transition:.2s;cursor:pointer;font-family:inherit;
   }
-  .divider{
-    display:flex;align-items:center;gap:12px;
-    max-width:260px;margin:22px auto 0;color:var(--gold);
-  }
-  .divider::before,.divider::after{
-    content:"";flex:1;height:1px;
-    background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  }
+  .pill:hover{border-color:var(--gold)}
+  .pill.gold{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:#1a1020;border-color:var(--gold)}
+  .pill svg{width:16px;height:16px;flex-shrink:0}
+  .open-now{display:inline-block;margin-top:14px;font-size:.82rem;color:var(--muted)}
+  .open-now b{color:var(--gold-light);font-weight:600}
 
   /* ---------- NAV ---------- */
   nav{
-    position:sticky;top:0;z-index:10;
-    display:flex;justify-content:center;gap:10px;
-    padding:12px 16px;
-    background:rgba(11,7,16,.82);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    position:sticky;top:0;z-index:10;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+    padding:12px 16px;background:rgba(11,7,16,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
+  nav::-webkit-scrollbar{display:none}
+  nav .inner{display:flex;gap:8px;margin:0 auto}
   nav a{
-    font-family:"Cinzel",serif;font-weight:600;
-    font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;
-    text-decoration:none;color:var(--muted);
-    padding:9px 20px;border-radius:999px;
-    border:1px solid transparent;
-    transition:all .25s;
+    font-family:"Cinzel",serif;font-weight:600;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+    text-decoration:none;color:var(--muted);padding:9px 16px;border-radius:999px;border:1px solid transparent;transition:.25s;
   }
-  nav a.active,nav a:hover{
-    color:var(--black);
-    background:linear-gradient(180deg,var(--gold-light),var(--gold));
-    border-color:var(--gold);
+  nav a.active,nav a:hover{color:var(--black);background:linear-gradient(180deg,var(--gold-light),var(--gold));border-color:var(--gold)}
+
+  /* ---------- FILTRO ALLERGENI ---------- */
+  .filter{max-width:880px;margin:16px auto 0;padding:0 16px}
+  .filter-toggle{width:100%;justify-content:space-between}
+  .filter-toggle .count{background:var(--gold);color:#1a1020;border-radius:999px;padding:1px 8px;font-size:.78rem}
+  .filter-panel{margin-top:10px;padding:16px;border-radius:16px;background:rgba(20,12,28,.92);border:1px solid var(--line)}
+  .filter-panel p{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{
+    font:inherit;font-size:.82rem;cursor:pointer;color:var(--text);padding:6px 11px;border-radius:999px;
+    background:rgba(107,47,163,.25);border:1px solid rgba(167,123,214,.3);transition:.15s;
   }
+  .chip.on{background:#5a1f2a;border-color:#e5636b;color:#ffd7da;text-decoration:line-through}
+  .filter-info{margin-top:12px;font-size:.85rem;color:var(--gold-light)}
 
   /* ---------- SECTIONS ---------- */
-  main{max-width:880px;margin:0 auto;padding:10px 16px 40px}
+  main{max-width:880px;margin:0 auto;padding:4px 16px 40px}
   section{padding-top:38px;scroll-margin-top:64px}
-  .section-title{
-    text-align:center;margin-bottom:26px;
-  }
-  .section-title small{
-    display:block;font-size:.72rem;letter-spacing:.4em;
-    text-transform:uppercase;color:var(--purple-soft);margin-bottom:6px;
-  }
-  .section-title h2{
-    font-family:"Cinzel",serif;font-weight:800;
-    font-size:clamp(1.7rem,6vw,2.3rem);
-    color:var(--gold);letter-spacing:.06em;
-  }
+  .section-title{text-align:center;margin-bottom:24px}
+  .section-title small{display:block;font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:6px}
+  .section-title h2{font-family:"Cinzel",serif;font-weight:800;font-size:clamp(1.7rem,6vw,2.3rem);color:var(--gold);letter-spacing:.06em}
+  .section-note{text-align:center;color:var(--muted);font-size:.9rem;margin:-12px 0 20px}
 
   .grid{display:grid;gap:14px}
   @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
 
   .card{
-    position:relative;
-    padding:20px 20px 18px;
-    border-radius:18px;
+    position:relative;padding:20px 20px 16px;border-radius:18px;
     background:linear-gradient(160deg,rgba(58,20,96,.55),rgba(20,12,28,.92) 70%);
-    border:1px solid var(--line);
-    overflow:hidden;
-    transition:transform .25s,border-color .25s,box-shadow .25s;
+    border:1px solid var(--line);overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;
   }
-  .card::before{
-    content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;
-    border-radius:0 3px 3px 0;
-    background:linear-gradient(180deg,var(--gold),var(--purple));
-  }
-  .card:hover{
-    transform:translateY(-2px);
-    border-color:rgba(212,175,55,.55);
-    box-shadow:0 10px 30px -12px rgba(107,47,163,.7);
-  }
-  .card-head{
-    display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
-    margin-bottom:10px;
-  }
-  .card h3{
-    font-family:"Cinzel",serif;font-weight:600;
-    font-size:1.15rem;letter-spacing:.03em;color:var(--gold-light);
-  }
-  .price{
-    flex-shrink:0;
-    font-weight:600;font-size:1rem;
-    color:var(--black);
-    background:linear-gradient(180deg,var(--gold-light),var(--gold));
-    padding:4px 12px;border-radius:999px;
-    box-shadow:0 0 0 3px rgba(212,175,55,.15);
-  }
-  .ingredients{
-    list-style:none;
-    display:flex;flex-wrap:wrap;gap:6px;
-  }
-  .ingredients li{
-    font-size:.86rem;font-weight:300;
-    color:var(--text);
-    padding:4px 10px;border-radius:8px;
-    background:rgba(107,47,163,.28);
-    border:1px solid rgba(167,123,214,.22);
-  }
+  .card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(180deg,var(--gold),var(--purple))}
+  .card:hover{transform:translateY(-2px);border-color:rgba(212,175,55,.55);box-shadow:0 10px 30px -12px rgba(107,47,163,.7)}
+  .card.off{opacity:.5}
+  .card.off .price{background:#3a3340;color:var(--muted);box-shadow:none}
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+  .card h3{font-family:"Cinzel",serif;font-weight:600;font-size:1.12rem;letter-spacing:.03em;color:var(--gold-light)}
+  .card h3 .star{color:var(--purple-soft);font-family:"Outfit"}
+  .tags{display:inline-flex;gap:4px;margin-left:6px;vertical-align:middle}
+  .tag{font-family:"Outfit";font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:2px 7px;border-radius:999px;background:rgba(212,175,55,.15);color:var(--gold-light);border:1px solid var(--line)}
+  .price{flex-shrink:0;font-weight:600;font-size:1rem;color:var(--black);background:linear-gradient(180deg,var(--gold-light),var(--gold));padding:4px 12px;border-radius:999px;box-shadow:0 0 0 3px rgba(212,175,55,.15);white-space:nowrap}
+  .ingredients{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+  .ingredients li{font-size:.86rem;font-weight:300;color:var(--text);padding:4px 10px;border-radius:8px;background:rgba(107,47,163,.28);border:1px solid rgba(167,123,214,.22)}
+  .desc{margin-top:10px;font-size:.88rem;font-weight:300;color:var(--muted)}
+  .alg{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;padding-top:10px;border-top:1px dashed rgba(212,175,55,.18);font-size:.75rem;color:var(--muted);align-items:center}
+  .alg span{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:6px;background:rgba(0,0,0,.25);border:1px solid rgba(167,123,214,.18);color:var(--text)}
 
-  /* ---------- EXTRAS ---------- */
-  .extras{
-    margin-top:26px;
-    padding:20px;
-    border-radius:18px;
-    border:1px dashed rgba(212,175,55,.5);
-    background:rgba(20,12,28,.7);
-    text-align:center;
-  }
-  .extras h3{
-    font-family:"Cinzel",serif;color:var(--gold);
-    letter-spacing:.1em;margin-bottom:12px;
-  }
+  .extras{margin-top:22px;padding:20px;border-radius:18px;border:1px dashed rgba(212,175,55,.5);background:rgba(20,12,28,.7);text-align:center}
+  .extras h3{font-family:"Cinzel",serif;color:var(--gold);letter-spacing:.1em;margin-bottom:12px}
   .extras p{color:var(--muted);margin:6px 0}
   .extras strong{color:var(--gold-light);font-weight:600}
 
-  .card.off{opacity:.5}
-  .card.off .price{background:#3a3340;color:var(--muted);box-shadow:none}
-  .desc{margin-top:10px;font-size:.88rem;font-weight:300;color:var(--muted)}
+  /* ---------- INFO ---------- */
+  .info-grid{display:grid;gap:14px}
+  @media(min-width:720px){.info-grid{grid-template-columns:1fr 1fr}}
+  .panel{padding:22px;border-radius:18px;background:linear-gradient(160deg,rgba(58,20,96,.45),rgba(20,12,28,.92) 70%);border:1px solid var(--line)}
+  .panel h3{font-family:"Cinzel",serif;color:var(--gold);letter-spacing:.06em;font-size:1.05rem;margin-bottom:14px}
+  .panel.full{grid-column:1/-1}
+  .hours{list-style:none}
+  .hours li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed rgba(212,175,55,.15);font-size:.95rem}
+  .hours li:last-child{border:0}
+  .hours li span:last-child{color:var(--gold-light);text-align:right}
+  .addr{font-size:1rem;line-height:1.5;margin-bottom:14px}
+  .map{width:100%;height:260px;border:0;border-radius:14px;margin-top:14px;filter:grayscale(.3) contrast(1.05)}
+  .btns{display:flex;flex-wrap:wrap;gap:8px}
+  .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:4px}
+  .legend div{display:flex;gap:10px;align-items:center;font-size:.88rem;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.22)}
+  .legend b{color:var(--gold-light);font-weight:600;min-width:20px}
+  .note{color:var(--muted);font-size:.88rem;line-height:1.55;margin-top:14px}
+
+  /* ---------- FOOTER & FAB ---------- */
+  footer{text-align:center;padding:30px 16px 46px;color:var(--muted);font-size:.78rem;letter-spacing:.06em;border-top:1px solid var(--line);max-width:880px;margin:0 auto}
+  footer .brand{font-family:"Cinzel",serif;color:var(--gold);font-size:1rem;letter-spacing:.15em;display:block;margin-bottom:6px}
+  footer .social{display:flex;justify-content:center;gap:10px;margin:12px 0}
+  .fab{
+    position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;
+    width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(180deg,var(--gold-light),var(--gold));color:#1a1020;
+    box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 0 4px rgba(212,175,55,.2);
+  }
+  .fab svg{width:24px;height:24px}
+  @media(min-width:900px){.fab{display:none}}
   .loading{text-align:center;color:var(--muted);padding:60px 0}
-  footer{
-    text-align:center;padding:30px 16px 46px;
-    color:var(--muted);font-size:.78rem;letter-spacing:.08em;
-    border-top:1px solid var(--line);
-    max-width:880px;margin:0 auto;
-  }
-  footer .brand{
-    font-family:"Cinzel",serif;color:var(--gold);font-size:1rem;
-    letter-spacing:.15em;display:block;margin-bottom:6px;
-  }
 </style>
 </head>
 <body>
 
 <header>
   <svg class="crown" viewBox="0 0 64 64" aria-hidden="true">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f3d98b"/><stop offset="1" stop-color="#b8901f"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d98b"/><stop offset="1" stop-color="#b8901f"/></linearGradient></defs>
     <path d="M8 46 L12 18 L24 32 L32 12 L40 32 L52 18 L56 46 Z" fill="url(#g)"/>
     <rect x="8" y="48" width="48" height="6" rx="2" fill="url(#g)"/>
     <circle cx="32" cy="36" r="4" fill="#6b2fa3"/>
@@ -219,60 +171,218 @@
   <h1 id="nome">Marinelli<span class="ver">3.0</span></h1>
   <p class="tagline" id="sottotitolo">Paninoteca · Sapori di Napoli</p>
   <div class="divider">✦</div>
+  <div class="quick" id="quick"></div>
+  <div id="openNow"></div>
 </header>
 
-<nav id="nav"></nav>
+<nav><div class="inner" id="nav"></div></nav>
+
+<div class="filter" id="filter">
+  <button class="pill filter-toggle" id="filterToggle" type="button" aria-expanded="false">
+    <span>⚠️ Allergie? Nascondi i piatti con i tuoi allergeni</span><span class="count hidden" id="filterCount"></span>
+  </button>
+  <div class="filter-panel hidden" id="filterPanel">
+    <p>Tocca gli allergeni da evitare: i piatti che li contengono verranno nascosti.</p>
+    <div class="chips" id="filterChips"></div>
+    <div class="filter-info" id="filterInfo"></div>
+  </div>
+</div>
 
 <main id="menu"><p class="loading">Caricamento menù…</p></main>
 
 <footer>
   <span class="brand" id="brand">MARINELLI 3.0</span>
+  <div class="social" id="social"></div>
   <span id="nota"></span>
 </footer>
 
+<a class="fab hidden" id="fab" aria-label="Chiama"></a>
+
 <script>
-/* Il menù si modifica dal pannello /admin (oppure nel file menu.json). */
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const euro = p => {
-  const n = Number(p);
-  if (!isFinite(n)) return esc(p);
-  return (Number.isInteger(n) ? n : n.toFixed(2).replace(".", ",")) + " €";
+const ICON = {
+  tel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm0-21.6A11.8 11.8 0 0 0 1.9 18l-1.7 6 6.2-1.6A11.8 11.8 0 1 0 12 .2z"/></svg>',
+  map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>',
+  ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  fb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8z"/></svg>'
 };
-const slug = (t, i) => (String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "sezione") + "-" + i;
+const ALG = Object.fromEntries((window.ALLERGENI || []).map(a => [a.id, a]));
+const TAG = Object.fromEntries((window.ETICHETTE || []).map(t => [t.id, t]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const euro = p => { const n = Number(p); if (p === "" || p == null || !isFinite(n)) return esc(p); return (Number.isInteger(n) ? n : n.toFixed(2).replace(".", ",")) + " €"; };
+const slug = (t, i) => (String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "sezione") + "-" + i;
+const telHref = t => "tel:" + String(t).replace(/[^\d+]/g, "");
+function waHref(n) {
+  let d = String(n).replace(/\D/g, "");
+  if (d.startsWith("00")) d = d.slice(2);
+  else if (!d.startsWith("39") || d.length <= 10) d = "39" + d;
+  return "https://wa.me/" + d;
+}
+const urlOf = (u, base) => !u ? "" : /^https?:\/\//i.test(u) ? u : base + String(u).replace(/^@/, "");
+
+let MENU = null;
+const avoid = new Set(JSON.parse(localStorage.getItem("marinelli-avoid") || "[]"));
 
 function render(m) {
+  MENU = m;
+  const L = m.locale || {};
   document.title = `${m.nome} ${m.versione || ""} · Menù`.replace(/\s+/g, " ");
   document.getElementById("nome").innerHTML = esc(m.nome) + (m.versione ? `<span class="ver">${esc(m.versione)}</span>` : "");
   document.getElementById("sottotitolo").textContent = m.sottotitolo || "";
   document.getElementById("brand").textContent = `${m.nome} ${m.versione || ""}`.toUpperCase();
   document.getElementById("nota").textContent = m.notaPiePagina || "";
 
-  const sezioni = (m.sezioni || []).filter(s => (s.piatti || []).length || (s.extra || []).length);
-  document.getElementById("nav").innerHTML = sezioni.map((s, i) =>
-    `<a href="#${slug(s.titolo, i)}"${i === 0 ? ' class="active"' : ""}>${esc(s.titolo)}</a>`).join("");
+  const fullAddr = [L.indirizzo, L.citta].filter(Boolean).join(", ");
+  const mapLink = L.linkMappa || (fullAddr ? "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(fullAddr) : "");
+  const hasInfo = L.telefono || L.whatsapp || fullAddr || (L.orari || []).length || L.email;
 
-  document.getElementById("menu").innerHTML = sezioni.map((s, i) => `
+  /* pulsanti rapidi */
+  document.getElementById("quick").innerHTML = [
+    L.telefono && `<a class="pill gold" href="${telHref(L.telefono)}">${ICON.tel} Chiama</a>`,
+    L.whatsapp && `<a class="pill" href="${waHref(L.whatsapp)}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>`,
+    mapLink && `<a class="pill" href="${esc(mapLink)}" target="_blank" rel="noopener">${ICON.map} Come arrivare</a>`
+  ].filter(Boolean).join("");
+  const fab = document.getElementById("fab");
+  if (L.telefono) { fab.href = telHref(L.telefono); fab.innerHTML = ICON.tel; fab.classList.remove("hidden"); }
+
+  /* social nel footer */
+  document.getElementById("social").innerHTML = [
+    L.instagram && `<a class="pill" href="${esc(urlOf(L.instagram, "https://instagram.com/"))}" target="_blank" rel="noopener">${ICON.ig} Instagram</a>`,
+    L.facebook && `<a class="pill" href="${esc(urlOf(L.facebook, "https://facebook.com/"))}" target="_blank" rel="noopener">${ICON.fb} Facebook</a>`
+  ].filter(Boolean).join("");
+
+  const sezioni = (m.sezioni || []).filter(s => (s.piatti || []).length || (s.extra || []).length);
+  const navItems = sezioni.map((s, i) => `<a href="#${slug(s.titolo, i)}">${esc(s.titolo)}</a>`);
+  if (hasInfo) navItems.push(`<a href="#info">Info</a>`);
+  navItems.push(`<a href="#allergeni">Allergeni</a>`);
+  document.getElementById("nav").innerHTML = navItems.join("");
+
+  const card = p => {
+    const algs = (p.allergeni || []).filter(a => ALG[a]);
+    const tags = (p.etichette || []).filter(t => TAG[t]);
+    return `
+    <article class="card${p.disponibile === false ? " off" : ""}" data-alg="${algs.join(" ")}">
+      <div class="card-head">
+        <h3>${esc(p.nome)}${p.surgelato ? '<span class="star" title="Prodotto surgelato">*</span>' : ""}${tags.length ? `<span class="tags">${tags.map(t => `<span class="tag">${TAG[t].icona} ${esc(TAG[t].nome)}</span>`).join("")}</span>` : ""}</h3>
+        <span class="price">${p.disponibile === false ? "Esaurito" : euro(p.prezzo)}</span>
+      </div>
+      ${(p.ingredienti || []).length ? `<ul class="ingredients">${p.ingredienti.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+      ${p.descrizione ? `<p class="desc">${esc(p.descrizione)}</p>` : ""}
+      ${algs.length ? `<div class="alg">Allergeni: ${algs.map(a => `<span title="${esc(ALG[a].nome)}">${ALG[a].icona} ${esc(ALG[a].nome)}</span>`).join("")}</div>` : ""}
+    </article>`;
+  };
+
+  let html = sezioni.map((s, i) => `
     <section id="${slug(s.titolo, i)}">
       <div class="section-title">${s.sopratitolo ? `<small>${esc(s.sopratitolo)}</small>` : ""}<h2>${esc(s.titolo)}</h2></div>
-      <div class="grid">${(s.piatti || []).map(p => `
-        <article class="card${p.disponibile === false ? " off" : ""}">
-          <div class="card-head">
-            <h3>${esc(p.nome)}</h3>
-            <span class="price">${p.disponibile === false ? "Esaurito" : euro(p.prezzo)}</span>
-          </div>
-          ${(p.ingredienti || []).length ? `<ul class="ingredients">${p.ingredienti.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-          ${p.descrizione ? `<p class="desc">${esc(p.descrizione)}</p>` : ""}
-        </article>`).join("")}
-      </div>
+      ${s.nota ? `<p class="section-note">${esc(s.nota)}</p>` : ""}
+      <div class="grid">${(s.piatti || []).map(card).join("")}</div>
       ${(s.extra || []).length ? `<div class="extras"><h3>Extra</h3>${s.extra.map(e =>
         `<p>${esc(e.testo)}${e.prezzo !== "" && e.prezzo != null ? ` <strong>${euro(e.prezzo)}</strong>` : ""}</p>`).join("")}</div>` : ""}
     </section>`).join("");
 
+  if (hasInfo) {
+    html += `
+    <section id="info">
+      <div class="section-title"><small>Vieni a trovarci</small><h2>Info & Contatti</h2></div>
+      <div class="info-grid">
+        ${(L.orari || []).length ? `<div class="panel"><h3>Orari</h3><ul class="hours">${L.orari.map(o => {
+          const k = o.indexOf(":"); const a = k > 0 && k < 25 ? o.slice(0, k) : o, b = k > 0 && k < 25 ? o.slice(k + 1) : "";
+          return `<li><span>${esc(a.trim())}</span><span>${esc(b.trim())}</span></li>`; }).join("")}</ul></div>` : ""}
+        ${(L.telefono || L.whatsapp || L.email) ? `<div class="panel"><h3>Contatti</h3>
+          ${L.telefono ? `<p class="addr">Telefono: <a href="${telHref(L.telefono)}">${esc(L.telefono)}</a></p>` : ""}
+          <div class="btns">
+            ${L.telefono ? `<a class="pill gold" href="${telHref(L.telefono)}">${ICON.tel} Chiama ora</a>` : ""}
+            ${L.whatsapp ? `<a class="pill" href="${waHref(L.whatsapp)}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>` : ""}
+            ${L.email ? `<a class="pill" href="mailto:${esc(L.email)}">${ICON.mail} Email</a>` : ""}
+          </div></div>` : ""}
+        ${fullAddr || mapLink ? `<div class="panel full"><h3>Dove siamo</h3>
+          ${fullAddr ? `<p class="addr">${esc(fullAddr)}</p>` : ""}
+          <div class="btns"><a class="pill gold" href="${esc(mapLink)}" target="_blank" rel="noopener">${ICON.map} Apri in Google Maps</a></div>
+          ${fullAddr ? `<iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mappa" src="https://maps.google.com/maps?q=${encodeURIComponent(fullAddr)}&z=16&output=embed"></iframe>` : ""}
+        </div>` : ""}
+      </div>
+    </section>`;
+  }
+
+  html += `
+    <section id="allergeni">
+      <div class="section-title"><small>Informazioni</small><h2>Allergeni</h2></div>
+      <div class="panel">
+        <h3>Reg. UE 1169/2011</h3>
+        <div class="legend">${(window.ALLERGENI || []).map(a => `<div><b>${a.icona}</b><span>${esc(a.nome)}</span></div>`).join("")}</div>
+        ${m.infoAllergeni ? `<p class="note">${esc(m.infoAllergeni)}</p>` : ""}
+        ${m.infoSurgelati && hasFrozen(m) ? `<p class="note">${esc(m.infoSurgelati)}</p>` : ""}
+        ${m.coperto ? `<p class="note">${esc(m.coperto)}</p>` : ""}
+      </div>
+    </section>`;
+
+  document.getElementById("menu").innerHTML = html;
+  buildFilter(); applyFilter(); spy(); openNow(L);
+}
+const hasFrozen = m => (m.sezioni || []).some(s => (s.piatti || []).some(p => p.surgelato));
+
+/* ---------- filtro allergeni ---------- */
+function buildFilter() {
+  document.getElementById("filterChips").innerHTML = (window.ALLERGENI || []).map(a =>
+    `<button type="button" class="chip${avoid.has(a.id) ? " on" : ""}" data-a="${a.id}">${a.icona} ${esc(a.nome)}</button>`).join("");
+}
+function applyFilter() {
+  let hidden = 0;
+  document.querySelectorAll(".card[data-alg]").forEach(c => {
+    const has = c.dataset.alg.split(" ").some(a => avoid.has(a));
+    c.classList.toggle("hidden", has); if (has) hidden++;
+  });
+  const cnt = document.getElementById("filterCount");
+  cnt.textContent = avoid.size; cnt.classList.toggle("hidden", !avoid.size);
+  document.getElementById("filterInfo").textContent = avoid.size
+    ? `${hidden} piatti nascosti. Le indicazioni sono orientative: in caso di allergia chiedi sempre conferma al personale.` : "";
+  try { localStorage.setItem("marinelli-avoid", JSON.stringify([...avoid])); } catch {}
+}
+document.getElementById("filterToggle").onclick = e => {
+  const p = document.getElementById("filterPanel"); p.classList.toggle("hidden");
+  e.currentTarget.setAttribute("aria-expanded", !p.classList.contains("hidden"));
+};
+document.getElementById("filterChips").onclick = e => {
+  const b = e.target.closest("[data-a]"); if (!b) return;
+  avoid.has(b.dataset.a) ? avoid.delete(b.dataset.a) : avoid.add(b.dataset.a);
+  b.classList.toggle("on"); applyFilter();
+};
+
+/* ---------- aperto ora (se gli orari sono nel formato "Lun–Ven: 18:00–23:00") ---------- */
+function openNow(L) {
+  const box = document.getElementById("openNow"); box.innerHTML = "";
+  const days = ["dom","lun","mar","mer","gio","ven","sab"], now = new Date(), today = now.getDay(), mins = now.getHours() * 60 + now.getMinutes();
+  const dayIdx = s => days.indexOf(s.trim().toLowerCase().slice(0, 3));
+  for (const o of L.orari || []) {
+    const k = o.indexOf(":"); if (k < 0) continue;
+    const dpart = o.slice(0, k).toLowerCase(), tpart = o.slice(k + 1);
+    let match = false;
+    if (/tutti|ogni giorno/.test(dpart)) match = true;
+    dpart.split(/,|\se\s/).forEach(seg => {
+      const r = seg.split(/[–-]/);
+      if (r.length === 2) { const a = dayIdx(r[0]), b = dayIdx(r[1]); if (a >= 0 && b >= 0) for (let d = a; ; d = (d + 1) % 7) { if (d === today) match = true; if (d === b) break; } }
+      else if (dayIdx(seg) === today) match = true;
+    });
+    if (!match) continue;
+    if (/chius/i.test(tpart)) { box.innerHTML = `<span class="open-now">Oggi <b>chiuso</b></span>`; return; }
+    for (const [, h1, m1, h2, m2] of tpart.matchAll(/(\d{1,2})[:.](\d{2})\s*[–-]\s*(\d{1,2})[:.](\d{2})/g)) {
+      const s = +h1 * 60 + +m1; let e = +h2 * 60 + +m2; if (e <= s) e += 1440;
+      if ((mins >= s && mins < e) || (mins + 1440 >= s && mins + 1440 < e)) { box.innerHTML = `<span class="open-now">● <b>Aperto ora</b> · fino alle ${h2}:${m2}</span>`; return; }
+    }
+    box.innerHTML = `<span class="open-now">Oggi: <b>${esc(tpart.trim())}</b></span>`; return;
+  }
+}
+
+/* ---------- evidenzia la sezione nel menu ---------- */
+function spy() {
   const links = document.querySelectorAll("nav a");
   const obs = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+    if (!e.isIntersecting) return;
+    links.forEach(a => { const on = a.getAttribute("href") === "#" + e.target.id; a.classList.toggle("active", on); if (on) { const n = a.closest("nav"); n.scrollTo({ left: a.offsetLeft - n.clientWidth / 2 + a.offsetWidth / 2, behavior: "smooth" }); } });
   }), { rootMargin: "-45% 0px -50% 0px" });
-  document.querySelectorAll("section").forEach(s => obs.observe(s));
+  document.querySelectorAll("main section").forEach(s => obs.observe(s));
 }
 
 fetch("menu.json?v=" + Date.now(), { cache: "no-store" })

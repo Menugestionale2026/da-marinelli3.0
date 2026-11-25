@@ -14,6 +14,7 @@ menu.json           → piatti e prezzi (scritto dal pannello)
 admin/index.html    → pannello dei proprietari
 admin/setup.html    → configurazione (una volta sola)
 admin/core.js       → funzioni comuni (cifratura e salvataggio)
+allergeni.js        → elenco dei 14 allergeni e delle etichette
 admin/style.css     → grafica del pannello
 admin/config.js     → creato automaticamente dal setup (non va caricato a mano)
 ```
@@ -47,6 +48,15 @@ admin/config.js     → creato automaticamente dal setup (non va caricato a mano
    - la barra **Cerca** trova subito un piatto
 4. Premi **Salva e pubblica**: il menù online si aggiorna entro **1–2 minuti**.
 5. Per cambiare la password: pulsante **Password** in alto.
+
+**Schede del pannello**
+- **🍔 Menù**: piatti, prezzi, ingredienti. Sotto ogni piatto, *Allergeni, etichette e descrizione*: si toccano gli allergeni presenti, le etichette (Piccante, Vegetariano, Novità) e la casella *Prodotto surgelato* (aggiunge l'asterisco richiesto dalla legge).
+- **📍 Contatti e orari**: telefono (pulsante *Chiama*), WhatsApp, email, Instagram/Facebook, indirizzo con mappa, orari. I campi vuoti non compaiono sul menù.
+- **⚙️ Generale e allergeni**: nome, sottotitolo, coperto, avviso allergeni.
+
+Gli orari vanno scritti come `Lun–Ven: 18:00–23:30` (una riga per fascia): così il menù mostra anche "Aperto ora".
+
+⚠️ **Gli allergeni sono stati precompilati in base agli ingredienti scritti sul menù cartaceo e vanno verificati dai proprietari** con le ricette e le etichette dei prodotti usati (es. panatura, salse, pane con sesamo).
 
 ## Sicurezza
 

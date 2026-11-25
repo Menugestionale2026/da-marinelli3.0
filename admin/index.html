@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="core.js"></script>
+<script src="../allergeni.js"></script>
 </head>
 <body>
 
@@ -48,18 +49,62 @@
   <div class="wrap">
     <div id="offlineBanner" class="banner hidden">Modalità di prova: le modifiche non vengono pubblicate. "Salva" scarica il file <b>menu.json</b>.</div>
 
-    <div class="search"><input id="search" type="text" placeholder="Cerca un piatto o un ingrediente…" autocomplete="off"></div>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-tab="tMenu">🍔 Menù</button>
+      <button class="tab" data-tab="tInfo">📍 Contatti e orari</button>
+      <button class="tab" data-tab="tGen">⚙️ Generale e allergeni</button>
+    </div>
 
-    <div id="sections"></div>
-    <button class="btn add" data-act="addSection">+ Aggiungi una nuova sezione (es. Bevande, Dolci)</button>
+    <div id="tMenu" class="tabpane">
+      <div class="search"><input id="search" type="text" placeholder="Cerca un piatto o un ingrediente…" autocomplete="off"></div>
+      <div id="sections"></div>
+      <button class="btn add" data-act="addSection">+ Aggiungi una nuova sezione (es. Dolci)</button>
+    </div>
 
-    <div class="card" style="margin-top:22px">
-      <h2>Informazioni generali</h2>
-      <div class="grid3">
-        <div><label>Nome locale</label><input type="text" data-g="nome"></div>
-        <div><label>Versione / sigla</label><input type="text" data-g="versione"></div>
-        <div class="full"><label>Sottotitolo</label><input type="text" data-g="sottotitolo"></div>
-        <div class="full"><label>Nota a fondo pagina</label><input type="text" data-g="notaPiePagina"></div>
+    <div id="tInfo" class="tabpane hidden">
+      <div class="card">
+        <h2>Contatti</h2>
+        <p class="hint" style="margin:-6px 0 14px">I campi lasciati vuoti non compaiono sul menù.</p>
+        <div class="grid3">
+          <div><label>Telefono (pulsante "Chiama")</label><input type="text" inputmode="tel" data-l="telefono" placeholder="es. 0481 123456"></div>
+          <div><label>WhatsApp</label><input type="text" inputmode="tel" data-l="whatsapp" placeholder="es. 333 1234567"></div>
+          <div class="full"><label>Email</label><input type="text" inputmode="email" data-l="email" placeholder="es. info@marinelli.it"></div>
+          <div><label>Instagram</label><input type="text" data-l="instagram" placeholder="nome utente o link"></div>
+          <div><label>Facebook</label><input type="text" data-l="facebook" placeholder="nome pagina o link"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Posizione</h2>
+        <div class="grid3">
+          <div><label>Indirizzo</label><input type="text" data-l="indirizzo" placeholder="es. Via Roma 10"></div>
+          <div><label>Città</label><input type="text" data-l="citta" placeholder="es. Monfalcone (GO)"></div>
+          <div class="full"><label>Link Google Maps (facoltativo)</label><input type="text" data-l="linkMappa" placeholder="Incolla il link di condivisione di Google Maps">
+            <p class="hint">Se lo lasci vuoto la mappa usa l'indirizzo scritto sopra.</p></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Orari di apertura</h2>
+        <label>Una riga per ogni fascia</label>
+        <textarea rows="5" data-l="orari" placeholder="Lun–Ven: 18:00–23:30&#10;Sab–Dom: 12:00–15:00, 18:00–24:00&#10;Mar: Chiuso"></textarea>
+        <p class="hint">Scrivi giorni, due punti, orari (es. <i>Lun–Ven: 18:00–23:30</i>). Così il menù mostra anche "Aperto ora".</p>
+      </div>
+    </div>
+
+    <div id="tGen" class="tabpane hidden">
+      <div class="card">
+        <h2>Informazioni generali</h2>
+        <div class="grid3">
+          <div><label>Nome locale</label><input type="text" data-g="nome"></div>
+          <div><label>Versione / sigla</label><input type="text" data-g="versione"></div>
+          <div class="full"><label>Sottotitolo</label><input type="text" data-g="sottotitolo"></div>
+          <div class="full"><label>Coperto / servizio (facoltativo)</label><input type="text" data-g="coperto" placeholder="es. Coperto 1,50 € a persona"></div>
+          <div class="full"><label>Nota a fondo pagina</label><input type="text" data-g="notaPiePagina"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Allergeni e prodotti surgelati</h2>
+        <div class="row" style="margin-bottom:12px"><label>Avviso allergeni</label><textarea rows="3" data-g="infoAllergeni"></textarea></div>
+        <div><label>Nota prodotti surgelati (compare se almeno un piatto è segnato come surgelato)</label><input type="text" data-g="infoSurgelati"></div>
       </div>
     </div>
   </div>
@@ -91,6 +136,7 @@
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const STORE = "marinelli-admin-session";
+const ALG = Object.fromEntries((window.ALLERGENI || []).map(a => [a.id, a]));
 const MENU_PATH = "menu.json";
 const CONFIG_PATH = "admin/config.js";
 
@@ -181,8 +227,15 @@ function normalize(d) {
   d.sezioni ||= [];
   d.sezioni.forEach(s => {
     s.piatti ||= []; s.extra ||= [];
-    s.piatti.forEach(p => { p.ingredienti ||= []; if (p.disponibile === undefined) p.disponibile = true; });
+    s.nota ??= "";
+    s.piatti.forEach(p => {
+      p.ingredienti ||= []; p.allergeni ||= []; p.etichette ||= [];
+      p.descrizione ??= ""; p.surgelato = !!p.surgelato;
+      if (p.disponibile === undefined) p.disponibile = true;
+    });
   });
+  d.locale = Object.assign({ telefono: "", whatsapp: "", email: "", indirizzo: "", citta: "", linkMappa: "", instagram: "", facebook: "", orari: [] }, d.locale || {});
+  for (const k of ["infoAllergeni", "infoSurgelati", "coperto", "notaPiePagina"]) d[k] ??= "";
   return d;
 }
 function startEditor(d) {
@@ -191,8 +244,13 @@ function startEditor(d) {
   $("#loginView").classList.add("hidden"); $("#editorView").classList.remove("hidden");
   $("#offlineBanner").classList.toggle("hidden", !offline);
   $("#saveBtn").textContent = offline ? "Scarica menu.json" : "Salva e pubblica";
+  fillFixed(); renderSections(); updateStatus();
+}
+function fillFixed() {
   document.querySelectorAll("[data-g]").forEach(i => i.value = data[i.dataset.g] ?? "");
-  renderSections(); updateStatus();
+  document.querySelectorAll("[data-l]").forEach(i => {
+    const v = data.locale[i.dataset.l]; i.value = Array.isArray(v) ? v.join("\n") : (v ?? "");
+  });
 }
 const isDirty = () => !!data && JSON.stringify(data) !== original;
 function updateStatus(text, cls) {
@@ -221,6 +279,17 @@ function renderSections() {
             <div><label>Nome</label><input type="text" value="${esc(p.nome)}" data-s="${si}" data-p="${pi}" data-f="nome"></div>
             <div><label>Prezzo</label><div class="price-wrap"><input type="text" inputmode="decimal" value="${esc(fmtPrice(p.prezzo))}" data-s="${si}" data-p="${pi}" data-f="prezzo"></div></div>
             <div class="ing"><label>Ingredienti (separati da virgola)</label><textarea rows="2" data-s="${si}" data-p="${pi}" data-f="ingredienti">${esc(p.ingredienti.join(", "))}</textarea></div>
+            <div class="more"><details class="adv">
+              <summary>Allergeni, etichette e descrizione <span class="alg-sum">${p.allergeni.map(a => ALG[a]?.icona || "").join(" ") || "— nessun allergene segnato"}</span></summary>
+              <div class="inner">
+                <div><label>Allergeni presenti</label><div class="algs">${(window.ALLERGENI || []).map(a =>
+                  `<button type="button" class="ach${p.allergeni.includes(a.id) ? " on" : ""}" data-act="alg" data-v="${a.id}" data-s="${si}" data-p="${pi}">${a.icona} ${esc(a.nome)}</button>`).join("")}</div></div>
+                <div><label>Etichette</label><div class="algs">${(window.ETICHETTE || []).map(t =>
+                  `<button type="button" class="ach tg${p.etichette.includes(t.id) ? " on" : ""}" data-act="tag" data-v="${t.id}" data-s="${si}" data-p="${pi}">${t.icona} ${esc(t.nome)}</button>`).join("")}
+                  <label class="check" style="margin-left:6px"><input type="checkbox" ${p.surgelato ? "checked" : ""} data-s="${si}" data-p="${pi}" data-f="surgelato"> Prodotto surgelato (*)</label></div></div>
+                <div><label>Descrizione (facoltativa)</label><input type="text" value="${esc(p.descrizione)}" data-s="${si}" data-p="${pi}" data-f="descrizione" placeholder="es. Il più amato della casa"></div>
+              </div>
+            </details></div>
             <div class="foot">
               <label class="check"><input type="checkbox" ${p.disponibile !== false ? "checked" : ""} data-s="${si}" data-p="${pi}" data-f="disponibile"> Disponibile</label>
               <button class="btn icon" title="Sposta su" data-act="itUp" data-s="${si}" data-p="${pi}" ${pi === 0 ? "disabled" : ""}>↑</button>
@@ -228,6 +297,7 @@ function renderSections() {
               <button class="btn small danger" data-act="itDel" data-s="${si}" data-p="${pi}">Elimina</button>
             </div>
           </div>`).join("")}
+        <div style="margin-top:12px"><label>Nota della sezione (facoltativa)</label><input type="text" value="${esc(s.nota)}" data-s="${si}" data-f="nota" placeholder="es. Tutti i panini sono serviti con patatine"></div>
         <button class="btn add" data-act="itAdd" data-s="${si}">+ Aggiungi piatto in "${esc(s.titolo || "sezione")}"</button>
 
         <div class="sub-h">Extra e aggiunte</div>
@@ -263,11 +333,16 @@ $("#search").addEventListener("input", applySearch);
 document.addEventListener("input", ev => {
   const t = ev.target; if (!data || t.id === "search") return;
   if (t.dataset.g) { data[t.dataset.g] = t.value; return updateStatus(); }
+  if (t.dataset.l) {
+    data.locale[t.dataset.l] = t.dataset.l === "orari" ? t.value.split("\n").map(x => x.trim()).filter(Boolean) : t.value.trim();
+    return updateStatus();
+  }
   if (t.dataset.s === undefined || !t.dataset.f) return;
   const s = data.sezioni[+t.dataset.s], f = t.dataset.f;
   if (t.dataset.p !== undefined) {
     const p = s.piatti[+t.dataset.p];
     if (f === "ingredienti") p.ingredienti = t.value.split(/[,\n]/).map(x => x.trim()).filter(Boolean);
+    else if (f === "surgelato") p.surgelato = t.checked;
     else if (f === "disponibile") { p.disponibile = t.checked; t.closest(".item").classList.toggle("off", !t.checked); }
     else if (f === "prezzo") { p.prezzo = t.value; t.classList.toggle("err", isNaN(parsePrice(t.value))); }
     else p[f] = t.value;
@@ -281,16 +356,32 @@ document.addEventListener("change", ev => { if (ev.target.type === "checkbox" &&
 /* pulsanti */
 const swap = (arr, a, b) => { [arr[a], arr[b]] = [arr[b], arr[a]]; };
 document.addEventListener("click", ev => {
+  const tb = ev.target.closest("[data-tab]");
+  if (tb) {
+    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === tb));
+    document.querySelectorAll(".tabpane").forEach(x => x.classList.toggle("hidden", x.id !== tb.dataset.tab));
+    return;
+  }
   const b = ev.target.closest("[data-act]"); if (!b || !data) return;
+  if (b.dataset.act === "alg" || b.dataset.act === "tag") {
+    const p = data.sezioni[+b.dataset.s].piatti[+b.dataset.p];
+    const arr = b.dataset.act === "alg" ? p.allergeni : p.etichette, v = b.dataset.v, i = arr.indexOf(v);
+    i >= 0 ? arr.splice(i, 1) : arr.push(v);
+    if (b.dataset.act === "alg") {
+      const order = (window.ALLERGENI || []).map(a => a.id); p.allergeni.sort((x, y) => order.indexOf(x) - order.indexOf(y));
+      b.closest("details").querySelector(".alg-sum").textContent = p.allergeni.map(a => ALG[a]?.icona || "").join(" ") || "— nessun allergene segnato";
+    }
+    b.classList.toggle("on"); return updateStatus();
+  }
   const si = +b.dataset.s, pi = +b.dataset.p, ei = +b.dataset.e, S = data.sezioni[si];
   switch (b.dataset.act) {
-    case "addSection": data.sezioni.push({ titolo: "Nuova sezione", sopratitolo: "", piatti: [], extra: [] }); break;
+    case "addSection": data.sezioni.push({ titolo: "Nuova sezione", sopratitolo: "", nota: "", piatti: [], extra: [] }); break;
     case "secUp": swap(data.sezioni, si, si - 1); break;
     case "secDown": swap(data.sezioni, si, si + 1); break;
     case "secDel":
       if (!confirm(`Eliminare la sezione "${S.titolo}" con tutti i suoi ${S.piatti.length} piatti?`)) return;
       data.sezioni.splice(si, 1); break;
-    case "itAdd": $("#search").value = ""; S.piatti.push({ nome: "", prezzo: "", disponibile: true, ingredienti: [] }); break;
+    case "itAdd": $("#search").value = ""; S.piatti.push({ nome: "", prezzo: "", disponibile: true, ingredienti: [], descrizione: "", allergeni: [], etichette: [], surgelato: false }); break;
     case "itUp": swap(S.piatti, pi, pi - 1); break;
     case "itDown": swap(S.piatti, pi, pi + 1); break;
     case "itDel":
@@ -356,8 +447,7 @@ async function save() {
 function undo() {
   if (!confirm("Annullare tutte le modifiche non salvate?")) return;
   data = normalize(JSON.parse(original));
-  document.querySelectorAll("[data-g]").forEach(i => i.value = data[i.dataset.g] ?? "");
-  renderSections(); updateStatus();
+  fillFixed(); renderSections(); updateStatus();
 }
 
 /* ---------- avvio ---------- */
