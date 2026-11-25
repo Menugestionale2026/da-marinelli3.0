@@ -547,6 +547,32 @@
           "allergeni": [],
           "etichette": [],
           "surgelato": false
+        },
+        {
+          "nome": "Montenegro",
+          "prezzo": 3.5,
+          "disponibile": true,
+          "ingredienti": [
+            "Montenegro"
+          ],
+          "descrizione": "",
+          "allergeni": [],
+          "etichette": [],
+          "surgelato": false
+        },
+        {
+          "nome": "Spritz Bianco",
+          "prezzo": 4,
+          "disponibile": true,
+          "ingredienti": [
+            "Acqua Frizzante",
+            "Prosecco",
+            "Vino Bianco"
+          ],
+          "descrizione": "",
+          "allergeni": [],
+          "etichette": [],
+          "surgelato": false
         }
       ]
     }
