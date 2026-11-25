@@ -3,19 +3,22 @@
   "versione": "3.0",
   "sottotitolo": "Paninoteca · Sapori di Napoli",
   "locale": {
-    "telefono": "",
+    "telefono": "3331234567",
     "whatsapp": "",
     "email": "",
-    "indirizzo": "",
-    "citta": "",
-    "linkMappa": "",
+    "indirizzo": "Via R. Sanzio, 2, 34074",
+    "citta": "Monfalcone (GO)",
+    "linkMappa": "https://www.google.com/maps/place//data=!4m2!3m1!1s0x477b09e758803e75:0x7c11dddd6d3ee1bf?sa=X&ved=1t:8290&ictx=111",
     "instagram": "",
     "facebook": "",
-    "orari": []
+    "orari": [
+      "Lun-Ven: 18:00-23:30",
+      "Sab-Dom 12:00-14:00/18:00-23:30"
+    ]
   },
   "infoAllergeni": "Le informazioni sugli allergeni sono indicative: le preparazioni possono contenere tracce di altri allergeni. Se hai allergie o intolleranze chiedi sempre al personale prima di ordinare.",
   "infoSurgelati": "* Prodotto surgelato o congelato all'origine.",
-  "coperto": "",
+  "coperto": "Coperto 1€ a persona",
   "notaPiePagina": "",
   "sezioni": [
     {
@@ -420,7 +423,7 @@
         },
         {
           "testo": "Provola di bufala / Bufala",
-          "prezzo": "5 €"
+          "prezzo": 5
         }
       ],
       "nota": ""
