@@ -448,7 +448,7 @@
         },
         {
           "nome": "Coca-Cola / Coca-Cola Zero",
-          "prezzo": 2.5,
+          "prezzo": 3,
           "disponibile": true,
           "ingredienti": [
             "Lattina 33 cl"
@@ -460,7 +460,7 @@
         },
         {
           "nome": "Fanta / Sprite",
-          "prezzo": 2.5,
+          "prezzo": 3,
           "disponibile": true,
           "ingredienti": [
             "Lattina 33 cl"
@@ -472,7 +472,7 @@
         },
         {
           "nome": "Tè freddo pesca / limone",
-          "prezzo": 2.5,
+          "prezzo": 3,
           "disponibile": true,
           "ingredienti": [
             "Lattina 33 cl"
@@ -484,7 +484,7 @@
         },
         {
           "nome": "Birra Peroni",
-          "prezzo": 3,
+          "prezzo": 3.5,
           "disponibile": true,
           "ingredienti": [
             "Bottiglia 33 cl"
@@ -511,11 +511,11 @@
           "surgelato": false
         },
         {
-          "nome": "Birra artigianale",
+          "nome": "Birra artigianale (Spina)",
           "prezzo": 5,
           "disponibile": true,
           "ingredienti": [
-            "Bottiglia 33 cl"
+            "50cl"
           ],
           "descrizione": "Chiedi al personale le birre disponibili",
           "allergeni": [
