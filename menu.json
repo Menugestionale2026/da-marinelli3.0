@@ -575,6 +575,24 @@
           "surgelato": false
         }
       ]
+    },
+    {
+      "titolo": "Dolci",
+      "sopratitolo": "",
+      "nota": "T",
+      "piatti": [
+        {
+          "nome": "Tiramisu ecc 6 euro",
+          "prezzo": 6,
+          "disponibile": true,
+          "ingredienti": [],
+          "descrizione": "",
+          "allergeni": [],
+          "etichette": [],
+          "surgelato": false
+        }
+      ],
+      "extra": []
     }
   ]
 }
