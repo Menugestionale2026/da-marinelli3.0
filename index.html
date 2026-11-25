@@ -144,18 +144,10 @@
   .legend b{color:var(--gold-light);font-weight:600;min-width:20px}
   .note{color:var(--muted);font-size:.88rem;line-height:1.55;margin-top:14px}
 
-  /* ---------- FOOTER & FAB ---------- */
+  /* ---------- FOOTER ---------- */
   footer{text-align:center;padding:30px 16px 46px;color:var(--muted);font-size:.78rem;letter-spacing:.06em;border-top:1px solid var(--line);max-width:880px;margin:0 auto}
   footer .brand{font-family:"Cinzel",serif;color:var(--gold);font-size:1rem;letter-spacing:.15em;display:block;margin-bottom:6px}
   footer .social{display:flex;justify-content:center;gap:10px;margin:12px 0}
-  .fab{
-    position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;
-    width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
-    background:linear-gradient(180deg,var(--gold-light),var(--gold));color:#1a1020;
-    box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 0 4px rgba(212,175,55,.2);
-  }
-  .fab svg{width:24px;height:24px}
-  @media(min-width:900px){.fab{display:none}}
   .loading{text-align:center;color:var(--muted);padding:60px 0}
 </style>
 </head>
@@ -195,8 +187,6 @@
   <div class="social" id="social"></div>
   <span id="nota"></span>
 </footer>
-
-<a class="fab hidden" id="fab" aria-label="Chiama"></a>
 
 <script>
 const ICON = {
@@ -243,8 +233,6 @@ function render(m) {
     L.whatsapp && `<a class="pill" href="${waHref(L.whatsapp)}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>`,
     mapLink && `<a class="pill" href="${esc(mapLink)}" target="_blank" rel="noopener">${ICON.map} Come arrivare</a>`
   ].filter(Boolean).join("");
-  const fab = document.getElementById("fab");
-  if (L.telefono) { fab.href = telHref(L.telefono); fab.innerHTML = ICON.tel; fab.classList.remove("hidden"); }
 
   /* social nel footer */
   document.getElementById("social").innerHTML = [
