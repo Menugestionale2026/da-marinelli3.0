@@ -602,16 +602,25 @@
     },
     {
       "titolo": "Dolci",
-      "sopratitolo": "",
-      "nota": "T",
+      "sopratitolo": "Per finire",
+      "nota": "",
       "piatti": [
         {
-          "nome": "Tiramisu ecc 6 euro",
+          "nome": "Tiramisù",
           "prezzo": 6,
           "disponibile": true,
-          "ingredienti": [],
+          "ingredienti": [
+            "Mascarpone",
+            "Savoiardi",
+            "Caffè",
+            "Cacao"
+          ],
           "descrizione": "",
-          "allergeni": [],
+          "allergeni": [
+            "glutine",
+            "uova",
+            "latte"
+          ],
           "etichette": [],
           "surgelato": false
         }
