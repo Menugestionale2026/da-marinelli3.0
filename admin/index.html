@@ -227,7 +227,7 @@ function normalize(d) {
   d.sezioni ||= [];
   d.sezioni.forEach(s => {
     s.piatti ||= []; s.extra ||= [];
-    s.nota ??= "";
+    s.nota ??= ""; s.evidenza ??= ""; s.etichettaCard ??= "";
     s.piatti.forEach(p => {
       p.ingredienti ||= []; p.allergeni ||= []; p.etichette ||= [];
       p.descrizione ??= ""; p.surgelato = !!p.surgelato;
@@ -297,7 +297,9 @@ function renderSections() {
               <button class="btn small danger" data-act="itDel" data-s="${si}" data-p="${pi}">Elimina</button>
             </div>
           </div>`).join("")}
-        <div style="margin-top:12px"><label>Nota della sezione (facoltativa)</label><input type="text" value="${esc(s.nota)}" data-s="${si}" data-f="nota" placeholder="es. Tutti i panini sono serviti con patatine"></div>
+        <div style="margin-top:12px"><label>Scritta in evidenza sotto il titolo (riquadro dorato, facoltativa)</label><input type="text" value="${esc(s.evidenza)}" data-s="${si}" data-f="evidenza" placeholder="es. Tutti i panini sono serviti con patatine"></div>
+        <div style="margin-top:12px"><label>Etichetta su ogni piatto della sezione (facoltativa)</label><input type="text" value="${esc(s.etichettaCard)}" data-s="${si}" data-f="etichettaCard" placeholder="es. 🍟 Con patatine"></div>
+        <div style="margin-top:12px"><label>Nota della sezione (facoltativa)</label><input type="text" value="${esc(s.nota)}" data-s="${si}" data-f="nota" placeholder="es. Pane artigianale cotto ogni giorno"></div>
         <button class="btn add" data-act="itAdd" data-s="${si}">+ Aggiungi piatto in "${esc(s.titolo || "sezione")}"</button>
 
         <div class="sub-h">Extra e aggiunte</div>
@@ -375,7 +377,7 @@ document.addEventListener("click", ev => {
   }
   const si = +b.dataset.s, pi = +b.dataset.p, ei = +b.dataset.e, S = data.sezioni[si];
   switch (b.dataset.act) {
-    case "addSection": data.sezioni.push({ titolo: "Nuova sezione", sopratitolo: "", nota: "", piatti: [], extra: [] }); break;
+    case "addSection": data.sezioni.push({ titolo: "Nuova sezione", sopratitolo: "", nota: "", evidenza: "", etichettaCard: "", piatti: [], extra: [] }); break;
     case "secUp": swap(data.sezioni, si, si - 1); break;
     case "secDown": swap(data.sezioni, si, si + 1); break;
     case "secDel":

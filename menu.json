@@ -168,7 +168,9 @@
         }
       ],
       "extra": [],
-      "nota": ""
+      "nota": "",
+      "evidenza": "",
+      "etichettaCard": ""
     },
     {
       "titolo": "Panini",
@@ -426,7 +428,9 @@
           "prezzo": 5
         }
       ],
-      "nota": ""
+      "nota": "",
+      "evidenza": "Tutti i panini sono serviti con le patatine!",
+      "etichettaCard": "🍟 Servito con patatine"
     },
     {
       "titolo": "Bevande",
@@ -574,7 +578,9 @@
           "etichette": [],
           "surgelato": false
         }
-      ]
+      ],
+      "evidenza": "",
+      "etichettaCard": ""
     },
     {
       "titolo": "Dolci",
@@ -592,7 +598,9 @@
           "surgelato": false
         }
       ],
-      "extra": []
+      "extra": [],
+      "evidenza": "",
+      "etichettaCard": ""
     }
   ]
 }
