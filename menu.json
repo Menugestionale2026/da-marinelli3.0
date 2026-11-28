@@ -487,41 +487,59 @@
           "surgelato": false
         },
         {
-          "nome": "Birra Peroni",
-          "prezzo": 3.5,
-          "disponibile": true,
-          "ingredienti": [
-            "Bottiglia 33 cl"
-          ],
-          "descrizione": "",
-          "allergeni": [
-            "glutine"
-          ],
-          "etichette": [],
-          "surgelato": false
-        },
-        {
-          "nome": "Birra Moretti",
-          "prezzo": 4.5,
-          "disponibile": true,
-          "ingredienti": [
-            "Bottiglia 66 cl"
-          ],
-          "descrizione": "",
-          "allergeni": [
-            "glutine"
-          ],
-          "etichette": [],
-          "surgelato": false
-        },
-        {
-          "nome": "Birra artigianale (Spina)",
+          "nome": "Poretti 4 Luppoli – L'Originale",
           "prezzo": 5,
           "disponibile": true,
           "ingredienti": [
-            "50cl"
+            "Lager",
+            "Alc. 5% vol."
           ],
-          "descrizione": "Chiedi al personale le birre disponibili",
+          "descrizione": "Equilibrata e profumata: lager dal corpo rotondo, armonia tra malto e luppolo. Ottima con primi, pizza e carni bianche.",
+          "allergeni": [
+            "glutine"
+          ],
+          "etichette": [],
+          "surgelato": false
+        },
+        {
+          "nome": "Poretti 9 Luppoli – IPA",
+          "prezzo": 5.5,
+          "disponibile": true,
+          "ingredienti": [
+            "IPA non filtrata",
+            "Alc. 5,9% vol."
+          ],
+          "descrizione": "Intensa e con note agrumate, luppolata. Perfetta con piatti decisi e carni speziate.",
+          "allergeni": [
+            "glutine"
+          ],
+          "etichette": [],
+          "surgelato": false
+        },
+        {
+          "nome": "Grimbergen Blanche",
+          "prezzo": 5.5,
+          "disponibile": true,
+          "ingredienti": [
+            "Birra di frumento",
+            "Agrumata e speziata"
+          ],
+          "descrizione": "Velata e fruttata, con scorze d'arancia, coriandolo e chiodi di garofano. Si abbina a formaggi freschi, carni bianche e pesce.",
+          "allergeni": [
+            "glutine"
+          ],
+          "etichette": [],
+          "surgelato": false
+        },
+        {
+          "nome": "Grimbergen Double Ambrée",
+          "prezzo": 5.5,
+          "disponibile": true,
+          "ingredienti": [
+            "Stile Dubbel",
+            "Corposa e tostata"
+          ],
+          "descrizione": "Ambrata scura, con note di caramello, frutta secca, cioccolato e caffè. Ideale con carni rosse e formaggi stagionati.",
           "allergeni": [
             "glutine"
           ],
