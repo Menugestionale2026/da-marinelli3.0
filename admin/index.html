@@ -97,6 +97,8 @@
           <div><label>Nome locale</label><input type="text" data-g="nome"></div>
           <div><label>Versione / sigla</label><input type="text" data-g="versione"></div>
           <div class="full"><label>Sottotitolo</label><input type="text" data-g="sottotitolo"></div>
+          <div class="full"><label>Servizio a domicilio – scritta in evidenza in cima al menù (lascia vuoto per nasconderla)</label><input type="text" data-g="domicilio" placeholder="es. Consegna a domicilio disponibile"></div>
+          <div class="full"><label>Servizio a domicilio – dettagli (zone, orari, costo, ordine minimo)</label><textarea rows="2" data-g="domicilioDettagli" placeholder="es. Consegniamo a Monfalcone e dintorni. Ordina per telefono o WhatsApp."></textarea></div>
           <div class="full"><label>Coperto / servizio (facoltativo)</label><input type="text" data-g="coperto" placeholder="es. Coperto 1,50 € a persona"></div>
           <div class="full"><label>Nota a fondo pagina</label><input type="text" data-g="notaPiePagina"></div>
         </div>
@@ -235,7 +237,7 @@ function normalize(d) {
     });
   });
   d.locale = Object.assign({ telefono: "", whatsapp: "", email: "", indirizzo: "", citta: "", linkMappa: "", instagram: "", facebook: "", orari: [] }, d.locale || {});
-  for (const k of ["infoAllergeni", "infoSurgelati", "coperto", "notaPiePagina"]) d[k] ??= "";
+  for (const k of ["infoAllergeni", "infoSurgelati", "coperto", "notaPiePagina", "domicilio", "domicilioDettagli"]) d[k] ??= "";
   return d;
 }
 function startEditor(d) {

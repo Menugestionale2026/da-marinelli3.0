@@ -2,6 +2,8 @@
   "nome": "Marinelli",
   "versione": "3.0",
   "sottotitolo": "Paninoteca · Sapori di Napoli",
+  "domicilio": "Consegna a domicilio disponibile",
+  "domicilioDettagli": "Ti portiamo i nostri panini direttamente a casa. Chiamaci per ordinare.",
   "locale": {
     "telefono": "3331234567",
     "whatsapp": "",
