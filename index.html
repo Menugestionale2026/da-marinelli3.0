@@ -291,7 +291,7 @@ function render(m) {
         ${(L.orari || []).length ? `<div class="panel"><h3>Orari</h3><ul class="hours">${L.orari.map(o => {
           const [a, b] = splitOrario(o);
           return `<li><span>${esc(a.trim())}</span><span>${esc(b.trim())}</span></li>`; }).join("")}</ul></div>` : ""}
-        ${m.domicilio ? `<div class="panel full" id="domicilio"><h3>🛵 Servizio a domicilio</h3>
+        ${m.domicilio ? `<div class="panel full" id="domicilio"><h3>🛍️ Asporto e 🛵 domicilio</h3>
           <p class="addr">${esc(m.domicilioDettagli || m.domicilio)}</p>
           ${(L.telefono || L.whatsapp) ? `<div class="btns">
             ${L.telefono ? `<a class="pill gold" href="${telHref(L.telefono)}">${ICON.tel} Ordina al telefono</a>` : ""}
